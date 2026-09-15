@@ -1,0 +1,33 @@
+{
+  "ts": "2026-09-15T16:51:56.256576",
+  "fixes_applied": [],
+  "issues": [
+    {
+      "type": "process_down",
+      "process": "CCMini.exe"
+    },
+    {
+      "type": "process_down",
+      "process": "waydroid"
+    },
+    {
+      "type": "process_down",
+      "process": "kdeinit5"
+    },
+    {
+      "type": "waydroid_down",
+      "detail": {
+        "running": false,
+        "raw": "UNKNOWN"
+      }
+    },
+    {
+      "type": "steam_errors",
+      "detail": {
+        "latest_log": "/home/sin/.local/share/Steam/steamapps/common/Once Human/ccmini/logs/m20260904175832.log",
+        "has_errors": true,
+        "size_bytes": 91836
+      }
+    }
+  ]
+}
