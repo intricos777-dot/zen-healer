@@ -1,0 +1,52 @@
+{
+  "ts": "2026-09-15T16:31:14.278626",
+  "fixes_applied": [
+    {
+      "action": "pacman -Sc",
+      "rc": 0,
+      "output": "Packages to keep:\n  All locally installed packages\n\nCache directory: /var/cache/pacman/pkg/\n:: Do you want to remove all other packages from cache? [Y/n] \nremoving old packages from cache...\n\nDatabase"
+    },
+    {
+      "action": "journal vacuum",
+      "rc": 0,
+      "output": "Vacuuming done, freed 0B of archived journals from /run/log/journal.\nVacuuming done, freed 0B of archived journals from /var/log/journal.\nVacuuming done, freed 0B of archived journals from /var/log/jo"
+    }
+  ],
+  "issues": [
+    {
+      "type": "disk",
+      "detail": {
+        "ok": false,
+        "usage_pct": 93,
+        "raw": "Filesystem                                             Size  Used Avail Use% Mounted on\n/dev/mapper/luks-95b8859e-677e-45c7-9a96-f9c4e836a8b9  468G  431G   37G  93% /"
+      }
+    },
+    {
+      "type": "process_down",
+      "process": "CCMini.exe"
+    },
+    {
+      "type": "process_down",
+      "process": "waydroid"
+    },
+    {
+      "type": "process_down",
+      "process": "kdeinit5"
+    },
+    {
+      "type": "waydroid_down",
+      "detail": {
+        "running": false,
+        "raw": "UNKNOWN"
+      }
+    },
+    {
+      "type": "steam_errors",
+      "detail": {
+        "latest_log": "/home/sin/.local/share/Steam/steamapps/common/Once Human/ccmini/logs/m20260904175832.log",
+        "has_errors": true,
+        "size_bytes": 91836
+      }
+    }
+  ]
+}

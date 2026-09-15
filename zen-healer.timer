@@ -1,0 +1,10 @@
+[Unit]
+Description=Zen Healer watchdog timer — runs every 5 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Unit=zen-healer-watchdog.service
+
+[Install]
+WantedBy=timers.target

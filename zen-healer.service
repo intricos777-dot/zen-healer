@@ -1,0 +1,16 @@
+[Unit]
+Description=Zen Healer — autonomous self-healing daemon
+After=network.target multi-user.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=sin
+ExecStart=/usr/bin/python3 /home/sin/zen/ai-healer/healer.py
+Restart=on-failure
+RestartSec=60
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
