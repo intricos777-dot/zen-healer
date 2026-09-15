@@ -1,5 +1,5 @@
 [Unit]
-Description=Zen Healer watchdog service
+Description=Zen Healer watchdog service v1
 
 [Service]
 Type=oneshot

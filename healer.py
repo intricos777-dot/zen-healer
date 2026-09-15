@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Zen Healer — full-stack autonomous self-healing daemon for Garuda/linux-zen.
+"""Zen Healer v1 — full-stack autonomous self-healing daemon for Garuda/linux-zen.
 
 Monitors: system health, Steam/Once Human, Waydroid, security (auditd), disk.
 Action policy: auto-apply only SAFE fixes (restarts, snapshot rollback, config restore).
@@ -10,7 +10,6 @@ import json, os, re, shutil, subprocess, sys, time, logging, yaml
 from pathlib import Path
 from datetime import datetime
 
-# --- Configuration ---
 CONFIG = {
     "log_dir": "/home/sin/zen/ai-healer/logs",
     "snapshots_dir": "/home/sin/.local/share/Steam/steamapps/common/Once Human/ccmini/logs",
@@ -18,7 +17,7 @@ CONFIG = {
     "critical_processes": ["CCMini.exe", "steam", "Steam", "waydroid", "kdeinit5", "plasmashell"],
     "disk_threshold_pct": 85,
     "memory_threshold_pct": 90,
-    "safe_fixes_only": True,  # never auto-apply network/config changes that need review
+    "safe_fixes_only": True,
 }
 
 SNAPSHOT_PREFIX = "ai-healer-auto"
@@ -31,7 +30,6 @@ def run(cmd, capture=True, timeout=30):
         return "", str(e), -1
 
 def snapshot():
-    """Create a snapper snapshot before any change (needs root via sudo)."""
     ts = datetime.now().strftime("%Y%m%d-%H%M%S")
     desc = f"{SNAPSHOT_PREFIX}-{ts}"
     out, err, rc = run(f"sudo snapper create -c root -t single -d '{desc}'")
@@ -94,7 +92,6 @@ def check_steam():
     return {"latest_log": None, "has_errors": False}
 
 def auto_fix_disk():
-    """Clean pacman cache, vacuum journals — safe operations."""
     actions = []
     out, _, rc = run("sudo pacman -Sc --noconfirm 2>&1")
     actions.append({"action": "pacman -Sc", "rc": rc, "output": out[:200]})
@@ -103,7 +100,6 @@ def auto_fix_disk():
     return actions
 
 def auto_fix_service(svc):
-    """Restart failed services — safe."""
     out, _, rc = run(f"sudo systemctl restart {svc} 2>&1")
     return {"action": f"restart {svc}", "rc": rc, "output": out[:200]}
 
@@ -112,10 +108,8 @@ def check_auditd():
     return {"rules_loaded": rc == 0, "count": len(out.split("\n")) if out else 0}
 
 def heal():
-    """Main healing loop — one pass."""
     report = {"ts": datetime.now().isoformat(), "fixes_applied": [], "issues": []}
 
-    # Disk
     disk = check_disk()
     if not disk["ok"]:
         report["issues"].append({"type": "disk", "detail": disk})
@@ -124,35 +118,29 @@ def heal():
             report["fixes_applied"].append({"type": "snapshot", "id": snap})
         report["fixes_applied"].extend(auto_fix_disk())
 
-    # Memory
     mem = check_memory()
     if not mem["ok"]:
         report["issues"].append({"type": "memory", "detail": mem})
 
-    # Services
     svcs = check_services()
     for svc, info in svcs.items():
         if not info["active"]:
             report["issues"].append({"type": "service", "service": svc, "status": info["status"]})
             report["fixes_applied"].append(auto_fix_service(svc))
 
-    # Critical processes
     procs = check_critical_processes()
     for proc, info in procs.items():
         if not info["running"]:
             report["issues"].append({"type": "process_down", "process": proc})
 
-    # Waydroid
     wd = check_waydroid()
     if not wd["running"]:
         report["issues"].append({"type": "waydroid_down", "detail": wd})
 
-    # Steam/Once Human errors
     st = check_steam()
     if st.get("has_errors"):
         report["issues"].append({"type": "steam_errors", "detail": st})
 
-    # Auditd
     aud = check_auditd()
     if not aud["rules_loaded"]:
         report["issues"].append({"type": "auditd_no_rules", "detail": aud})
@@ -166,7 +154,6 @@ def main():
     report = heal()
     log_file.write_text(json.dumps(report, indent=2))
 
-    # Print summary
     print(f"=== Zen Healer Pass === {report['ts']}")
     print(f"Issues found: {len(report['issues'])}")
     print(f"Fixes applied: {len(report['fixes_applied'])}")

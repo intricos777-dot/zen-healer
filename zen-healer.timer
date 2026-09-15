@@ -1,5 +1,5 @@
 [Unit]
-Description=Zen Healer watchdog timer — runs every 5 minutes
+Description=Zen Healer watchdog timer v1 — runs every 5 minutes
 
 [Timer]
 OnBootSec=2min

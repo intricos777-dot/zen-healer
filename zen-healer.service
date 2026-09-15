@@ -1,5 +1,5 @@
 [Unit]
-Description=Zen Healer — autonomous self-healing daemon
+Description=Zen Healer — autonomous self-healing daemon v1
 After=network.target multi-user.target
 Wants=network.target
 
