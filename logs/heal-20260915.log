@@ -92,3 +92,13 @@ Fixes applied: 0
   ISSUE: {'type': 'waydroid_down', 'detail': {'running': False, 'raw': 'UNKNOWN'}}
   ISSUE: {'type': 'steam_errors', 'detail': {'latest_log': '/home/sin/.local/share/Steam/steamapps/common/Once Human/ccmini/logs/m20260904175832.log', 'has_errors': True, 'size_bytes': 91836}}
 Log: /home/sin/zen/ai-healer/logs/heal-20260915-170606.json
+[2026-09-15T17:11:15.115323] exit=0
+=== Zen Healer Pass === 2026-09-15T17:11:14.191246
+Issues found: 5
+Fixes applied: 0
+  ISSUE: {'type': 'process_down', 'process': 'CCMini.exe'}
+  ISSUE: {'type': 'process_down', 'process': 'waydroid'}
+  ISSUE: {'type': 'process_down', 'process': 'kdeinit5'}
+  ISSUE: {'type': 'waydroid_down', 'detail': {'running': False, 'raw': 'UNKNOWN'}}
+  ISSUE: {'type': 'steam_errors', 'detail': {'latest_log': '/home/sin/.local/share/Steam/steamapps/common/Once Human/ccmini/logs/m20260904175832.log', 'has_errors': True, 'size_bytes': 91836}}
+Log: /home/sin/zen/ai-healer/logs/heal-20260915-171114.json
